@@ -15,7 +15,11 @@ class ACTDR6CMBonly(Likelihood):
 
     input_file: str
     data_folder: str = "ACTDR6CMBonly"
-    ell_cuts: Optional[dict] = None
+    ell_cuts: dict = {
+        "TT": [600, 6500],
+        "TE": [600, 6500],
+        "EE": [500, 6500]
+    }
     lmax_theory: Optional[int] = None
 
     def initialize(self):
@@ -28,7 +32,7 @@ class ACTDR6CMBonly(Likelihood):
 
         input_file = sacc.Sacc.load_fits(input_filename)
 
-        self.log.debug("Found SACC data file.")
+        self.log.debug(f"Found SACC data file there.")
 
         pol_dt = {"t": "0", "e": "e", "b": "b"}
 
@@ -45,8 +49,6 @@ class ACTDR6CMBonly(Likelihood):
             dt = f"cl_{t1}{t2}"
 
             tracers = input_file.get_tracer_combinations(dt)
-            self.log.debug(pol)
-            self.log.debug(tracers)
 
             for tr1, tr2 in tracers:
                 lmin, lmax = self.ell_cuts.get(pol, (-np.inf, np.inf))
@@ -60,6 +62,8 @@ class ACTDR6CMBonly(Likelihood):
                     )
                     self.cull.append(ind[~mask])
 
+                window = input_file.get_bandpower_windows(ind[mask])
+
                 self.spec_meta.append({
                     "data_type": dt,
                     "tracer1": tr1,
@@ -68,11 +72,11 @@ class ACTDR6CMBonly(Likelihood):
                     "ell": ls[mask],
                     "spec": mu[mask],
                     "idx": ind[mask],
-                    "window": input_file.get_bandpower_windows(ind[mask])
+                    "window": window
                 })
 
                 idx_max = max(idx_max, max(ind))
-                self.lmax_theory = max(self.lmax_theory, int(ls[mask].max()))
+                self.lmax_theory = max(self.lmax_theory, int(window.values.max()) + 1)
 
         self.data_vec = np.zeros((idx_max+1,))
         for m in self.spec_meta:
@@ -95,8 +99,8 @@ class ACTDR6CMBonly(Likelihood):
         return dict(Cl={
             k: self.lmax_theory+1 for k in ["TT", "TE", "EE"]
         })
-
-    def loglike(self, cl):
+    
+    def chi_square(self, cl):
         ps_vec = np.zeros_like(self.data_vec)
 
         for m in self.spec_meta:
@@ -110,8 +114,12 @@ class ACTDR6CMBonly(Likelihood):
 
         delta = self.data_vec - ps_vec
 
-        logp = -0.5 * (delta @ self.inv_cov @ delta)
-        self.log.debug(f"Chisqr = {-2*logp:.3f}")
+        chisquare = delta @ self.inv_cov @ delta
+        self.log.debug(f"Chisqr = {chisquare:.3f}")
+        return chisquare
+
+    def loglike(self, cl):
+        logp = -0.5 * self.chi_square(cl)
         return self.logp_const + logp
 
     def logp(self, **param_values):
