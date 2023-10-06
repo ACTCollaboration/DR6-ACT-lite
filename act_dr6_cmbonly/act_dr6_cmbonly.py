@@ -4,9 +4,11 @@ import os
 import numpy as np
 from typing import Optional
 
+
 class ACTDR6CMBonly(Likelihood):
     """
     Likelihood for ACT DR6 foreground-marginalized (cmb-only).
+
     Author: Hidde T. Jense
     """
     file_base_name: str = "act_dr6_cmb"
@@ -28,16 +30,16 @@ class ACTDR6CMBonly(Likelihood):
 
         self.log.debug("Found SACC data file.")
 
-        pol_dt = { "t" : "0", "e" : "e", "b" : "b" }
+        pol_dt = {"t": "0", "e": "e", "b": "b"}
 
-        self.ell_cuts = self.ell_cuts or { }
+        self.ell_cuts = self.ell_cuts or {}
         self.lmax_theory = self.lmax_theory or -1
 
         self.spec_meta = []
         self.cull = []
         idx_max = 0
 
-        for pol in [ "TT", "TE", "EE" ]:
+        for pol in ["TT", "TE", "EE"]:
             p1, p2 = pol.lower()
             t1, t2 = pol_dt[p1], pol_dt[p2]
             dt = f"cl_{t1}{t2}"
@@ -48,21 +50,25 @@ class ACTDR6CMBonly(Likelihood):
 
             for tr1, tr2 in tracers:
                 lmin, lmax = self.ell_cuts.get(pol, (-np.inf, np.inf))
-                ls, mu, ind = input_file.get_ell_cl(dt, tr1, tr2, return_ind = True)
+                ls, mu, ind = input_file.get_ell_cl(dt, tr1, tr2,
+                                                    return_ind=True)
                 mask = np.logical_and(ls >= lmin, ls <= lmax)
-                if np.any(mask == False):
-                    self.log.debug(f"Cutting {pol} data to the range [{lmin}-{lmax}].")
-                    self.cull.append( ind[~mask] )
+
+                if not np.all(mask):
+                    self.log.debug(
+                        f"Cutting {pol} data to the range [{lmin}-{lmax}]."
+                    )
+                    self.cull.append(ind[~mask])
 
                 self.spec_meta.append({
-                    "data_type" : dt,
-                    "tracer1" : tr1,
-                    "tracer2" : tr2,
-                    "pol" : pol.lower(),
-                    "ell" : ls[mask],
-                    "spec" : mu[mask],
-                    "idx" : ind[mask],
-                    "window" : input_file.get_bandpower_windows(ind[mask])
+                    "data_type": dt,
+                    "tracer1": tr1,
+                    "tracer2": tr2,
+                    "pol": pol.lower(),
+                    "ell": ls[mask],
+                    "spec": mu[mask],
+                    "idx": ind[mask],
+                    "window": input_file.get_bandpower_windows(ind[mask])
                 })
 
                 idx_max = max(idx_max, max(ind))
@@ -74,9 +80,9 @@ class ACTDR6CMBonly(Likelihood):
 
         self.covmat = input_file.covariance.covmat
         for culls in self.cull:
-            self.covmat[culls,:] = 0.0
-            self.covmat[:,culls] = 0.0
-            self.covmat[culls,culls] = 1e10
+            self.covmat[culls, :] = 0.0
+            self.covmat[:, culls] = 0.0
+            self.covmat[culls, culls] = 1e10
 
         self.inv_cov = np.linalg.inv(self.covmat)
         self.logp_const = np.log(2.0 * np.pi) * -0.5 * len(self.data_vec)
@@ -86,7 +92,9 @@ class ACTDR6CMBonly(Likelihood):
         self.log.debug(f"len(data vec) = {len(self.data_vec)}")
 
     def get_requirements(self):
-        return { "Cl" : { k : self.lmax_theory + 1 for k in [ "TT", "TE", "EE" ] } }
+        return dict(Cl={
+            k: self.lmax_theory+1 for k in ["TT", "TE", "EE"]
+        })
 
     def loglike(self, cl):
         ps_vec = np.zeros_like(self.data_vec)
@@ -107,6 +115,5 @@ class ACTDR6CMBonly(Likelihood):
         return self.logp_const + logp
 
     def logp(self, **param_values):
-        cl = self.theory.get_Cl(ell_factor = True)
+        cl = self.theory.get_Cl(ell_factor=True)
         return self.loglike(cl)
-
