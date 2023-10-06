@@ -29,6 +29,6 @@ def test_import():
 
 def test_model():
     info["likelihood"] = {
-        "act_dr6_cmbonly.ACTDR6CMBonly": {}
+        "act_dr6_cmbonly.ACTDR6CMBonly": None
     }
     model = get_model(info)  # noqa F841
