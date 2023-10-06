@@ -31,6 +31,12 @@ jobs:
         shell: bash -el {0}
         run: |
           pip install tox-conda
+      - name: Install Dataset
+        shell: bash -el {0}
+        run: |
+          export COBAYA_PACKAGES_PATH=./cobaya_packages
+          mkdir -p $COBAYA_PACKAGES_PATH/data/ACTDR6CMBonly
+          cp act_dr6_cmb_sacc.fits $COBAYA_PACKAGES_PATH/data/ACTDR6CMBonly/act_dr6_cmb_sacc.fits
       - name: Run Tests
         shell: bash -el {0}
         run: |
