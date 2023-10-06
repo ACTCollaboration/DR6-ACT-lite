@@ -8,5 +8,5 @@ dependencies:
   - pytest
   - numpy
   - camb
-  - cobaya>=3.3
+  - cobaya
   - sacc
