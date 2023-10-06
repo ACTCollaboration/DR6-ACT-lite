@@ -14,6 +14,7 @@ class ACTDR6CMBonly(Likelihood):
     input_file: str
     data_folder: str = "ACTDR6CMBonly"
     ell_cuts: Optional[dict] = None
+    lmax_theory: Optional[int] = None
 
     def initialize(self):
         data_file_path = os.path.join(self.packages_path, data_path)
@@ -30,6 +31,8 @@ class ACTDR6CMBonly(Likelihood):
         pol_dt = { "t" : "0", "e" : "e", "b" : "b" }
 
         self.ell_cuts = self.ell_cuts or { }
+        self.lmax_theory = self.lmax_theory or -1
+
         self.spec_meta = []
         self.cull = []
         idx_max = 0
@@ -61,7 +64,9 @@ class ACTDR6CMBonly(Likelihood):
                     "idx" : ind[mask],
                     "window" : input_file.get_bandpower_windows(ind[mask])
                 })
+
                 idx_max = max(idx_max, max(ind))
+                self.lmax_theory = max(self.lmax_theory, int(ls[mask].max()))
 
         self.data_vec = np.zeros((idx_max+1,))
         for m in self.spec_meta:
@@ -81,7 +86,7 @@ class ACTDR6CMBonly(Likelihood):
         self.log.debug(f"len(data vec) = {len(self.data_vec)}")
 
     def get_requirements(self):
-        return { "Cl" : { k : self.lmax_theory + 1 for k in self.polarizations } }
+        return { "Cl" : { k : self.lmax_theory + 1 for k in [ "TT", "TE", "EE" ] } }
 
     def loglike(self, cl):
         ps_vec = np.zeros_like(self.data_vec)

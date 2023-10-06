@@ -1,3 +1,8 @@
+# User-created
+# Ignore cobaya chains
+chains/
+
+# AUTO-GENERATED BELOW
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
