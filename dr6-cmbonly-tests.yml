@@ -6,7 +6,5 @@ dependencies:
   - python>=3.8
   - pip
   - pytest
-  - numpy
-  - camb
-  - cobaya
-  - sacc
+  - pip:
+    - -r requirements.txt
