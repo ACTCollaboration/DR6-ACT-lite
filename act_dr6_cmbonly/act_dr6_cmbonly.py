@@ -32,7 +32,7 @@ class ACTDR6CMBonly(Likelihood):
 
         input_file = sacc.Sacc.load_fits(input_filename)
 
-        self.log.debug(f"Found SACC data file there.")
+        self.log.debug("Found SACC data file there.")
 
         pol_dt = {"t": "0", "e": "e", "b": "b"}
 
@@ -76,7 +76,8 @@ class ACTDR6CMBonly(Likelihood):
                 })
 
                 idx_max = max(idx_max, max(ind))
-                self.lmax_theory = max(self.lmax_theory, int(window.values.max()) + 1)
+                self.lmax_theory = max(self.lmax_theory,
+                                       int(window.values.max())+1)
 
         self.data_vec = np.zeros((idx_max+1,))
         for m in self.spec_meta:
@@ -99,7 +100,7 @@ class ACTDR6CMBonly(Likelihood):
         return dict(Cl={
             k: self.lmax_theory+1 for k in ["TT", "TE", "EE"]
         })
-    
+
     def chi_square(self, cl):
         ps_vec = np.zeros_like(self.data_vec)
 
