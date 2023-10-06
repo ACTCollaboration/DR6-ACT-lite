@@ -1,0 +1,12 @@
+name: dr6-cmbonly-tests
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python>=3.8
+  - pip
+  - pytest
+  - numpy
+  - camb
+  - cobaya>=3.3
+  - sacc
