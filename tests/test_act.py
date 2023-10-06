@@ -2,7 +2,7 @@
 This test checks that the ACT DR6 CMB-only likelihood is correctly installed
 and working properly.
 """
-import pytest
+import pytest  # noqa F401
 import numpy as np
 from cobaya.model import get_model
 
@@ -21,8 +21,10 @@ info = {
     "debug": True
 }
 
+
 def test_import():
-    import act_dr6_cmbonly
+    import act_dr6_cmbonly  # noqa F401
+
 
 def test_model():
     info["likelihood"] = {
