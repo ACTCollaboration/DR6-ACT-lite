@@ -1,0 +1,16 @@
+data_folder: ACTDR6CMBonly
+input_file: null
+
+# Which polarizations we are interested in.
+polarizations: [ TT, TE, EE ]
+# To what ell value do we request theory curves.
+lmax_theory: 9000
+# To what ell value do we cut our data
+lmax_cuts:
+  TT: [ 600, 6500 ]
+  TE: [ 600, 6500 ]
+  EE: [ 500, 6500 ]
+
+# We do not have any unmarginalized calibration/polarization efficiency parameters (yet).
+# If this changes in the future, they will be added here.
+params: null

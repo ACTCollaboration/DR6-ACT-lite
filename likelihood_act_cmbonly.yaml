@@ -1,0 +1,3 @@
+act_dr6_cmbonly.ACTDR6CMBonly:
+  input_file: act_dr6_cmb_sacc.fits
+  stop_at_error: true

@@ -1,0 +1,5 @@
+act_dr6_lenslike.ACTDR6LensLike:
+  lens_only: False
+  stop_at_error: True
+  lmax: 4000
+  variant: actplanck_baseline
