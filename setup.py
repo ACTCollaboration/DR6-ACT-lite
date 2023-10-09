@@ -7,8 +7,8 @@ setup(name="ACT DR6 CMBonly",
       description="Cobaya likelihood for the DR6 foreground-marginalized data",
       author=__author__,
       url="https://github.com/ACTCollaboration/dr6-cmbonly",
-      install_requires=["sacc>=0.12.0","cobaya>=3.3"],
-      packages = ["act_dr6_cmbonly"],
+      install_requires=["sacc>=0.12.0", "cobaya>=3.3"],
+      packages=["act_dr6_cmbonly"],
       test_suite="act_dr6_cmbonly.tests",
       classifiers=[
           "Programming Language :: Python :: 3"
