@@ -11,33 +11,28 @@ jobs:
           - name: Latest Version
             os: ubuntu-latest
             python-version: '3.12'
-            toxenv: py312-test
-          
+
           - name: Oldest Version
             os: ubuntu-latest
             python-version: '3.8'
-            toxenv: py38-test
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Install Conda w/ Python ${{ matrix.python-version }}
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          auto-activate-base: false
-          python-version: ${{ matrix.python-version }}
-          channels: conda-forge
+
       - name: Install Dependencies
         shell: bash -el {0}
         run: |
-          pip install tox-conda
-      - name: Install Dataset
+          pip install -e .
+
+      - name: Cache testing Dataset
         shell: bash -el {0}
         run: |
           export COBAYA_PACKAGES_PATH=./cobaya_packages
           mkdir -p $COBAYA_PACKAGES_PATH/data/ACTDR6CMBonly
           cp act_dr6_cmb_sacc.fits $COBAYA_PACKAGES_PATH/data/ACTDR6CMBonly/act_dr6_cmb_sacc.fits
+
       - name: Run Tests
         shell: bash -el {0}
         run: |
-          tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.toxposargs }}
+          pytest -v act_dr6_cmbonly/tests/test_act.py
