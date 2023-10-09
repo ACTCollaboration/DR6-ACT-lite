@@ -23,5 +23,5 @@ setup(name="ACT DR6 CMBonly",
       install_requires=["sacc>=0.12.0","cobaya>=3.3"],
       packages = ["act_dr6_cmbonly"],
       package_data={
-          "testpaths":"act_dr6_cmbonly"
+          "testpaths":["act_dr6_cmbonly"]
       })
