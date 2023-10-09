@@ -3,3 +3,4 @@ scipy
 camb
 sacc
 cobaya
+pytest

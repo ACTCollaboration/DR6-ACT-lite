@@ -1,10 +1,7 @@
 import os
 import numpy as np
 from typing import Optional
-try:
-    from cobaya.likelihood import Likelihood
-except ImportError:
-    Likelihood = object
+from cobaya.likelihood import Likelihood
 
 
 class ACTDR6CMBonly(Likelihood):
