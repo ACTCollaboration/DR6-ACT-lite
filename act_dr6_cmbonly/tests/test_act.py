@@ -47,12 +47,30 @@ def test_TTTEEE():
         }
     }
     model = get_model(info)
-    loglikes = model.loglikes()[0][0]
+    loglikes = sum(model.loglikes()[0])
     assert np.isclose(loglikes, -1356.91), \
         "TT/TE/EE log-posterior does not match."
+
+
+def test_Planck():
+    info["likelihood"] = {
+        "act_dr6_cmbonly.ACTDR6CMBonly": {
+            "stop_at_error": True,
+            "input_file": "act_dr6_cmb_sacc.fits"
+        },
+        "act_dr6_cmbonly.PlanckActCut": {
+            "stop_at_error": True,
+            "params": {"A_planck": 1.0}
+        }
+    }
+    model = get_model(info)
+    loglikes = sum(model.loglikes()[0])
+    assert np.isclose(loglikes, -1947.24), \
+        "ACT+Planck log-posterior does not match."
 
 
 if __name__ == "__main__":
     test_import()
     test_model()
     test_TTTEEE()
+    test_Planck()

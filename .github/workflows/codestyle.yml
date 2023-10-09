@@ -9,18 +9,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
       - name: Install Conda w/ Python 3.8
         uses: conda-incubator/setup-miniconda@v2
         with:
           auto-activate-base: false
           python-version: '3.8'
           channels: conda-forge
+
       - name: Install Dependencies
         shell: bash -el {0}
         run: |
-          pip install tox-conda flake8
+          pip install flake8
+
       - name: Check Code Style
         shell: bash -el {0}
         run: |
-          tox -e codestyle
+          flake8

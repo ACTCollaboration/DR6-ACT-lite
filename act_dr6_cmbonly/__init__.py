@@ -1,1 +1,6 @@
+__author__ = "Hidde T. Jense"
+__url__ = "https://github.com/ACTCollaboration/dr6-cmbonly"
+__version__ = "0.1.2"
+
 from .act_dr6_cmbonly import ACTDR6CMBonly  # noqa: F401
+from .PlanckActCut import PlanckActCut  # noqa: F401
