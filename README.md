@@ -20,6 +20,10 @@ You can install the package then as
 pip install -e .
 ```
 This will locally pip-install the dataset.
+If you want to use the Planck dataset cut at the ACT multipole, you need to install the data with
+```
+cobaya-install act_dr6_cmbonly.PlanckActCut
+```
 You can now run the tests with
 ```
 pytest -v --pyargs act_dr6_cmbonly
