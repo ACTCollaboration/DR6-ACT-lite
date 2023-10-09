@@ -25,12 +25,16 @@ class ACTDR6CMBonly(Likelihood):
     lmax_theory: Optional[int] = None
 
     def initialize(self):
-        from cobaya.conventions import data_path
-
         if self.packages_path is None:
-            self.data_folder = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data")
+            self.data_folder = os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                "data")
         else:
-            self.data_folder = os.path.join(self.packages_path, data_path, self.data_folder)
+            from cobaya.conventions import data_path
+            self.data_folder = os.path.join(
+                self.packages_path,
+                data_path,
+                self.data_folder)
 
         import sacc
         input_filename = os.path.join(self.data_folder, self.input_file)
