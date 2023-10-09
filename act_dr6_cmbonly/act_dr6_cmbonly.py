@@ -27,6 +27,7 @@ class ACTDR6CMBonly(Likelihood):
     def initialize(self):
         from cobaya.conventions import data_path
 
+        packages_path = self.packages_path or os.path.join(__file__, "data")
         data_file_path = os.path.join(self.packages_path, data_path)
         self.data_folder = os.path.join(data_file_path, self.data_folder)
 
