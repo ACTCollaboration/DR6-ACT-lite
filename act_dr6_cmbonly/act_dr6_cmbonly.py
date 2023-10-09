@@ -1,8 +1,10 @@
-from cobaya.likelihood import Likelihood
-from cobaya.conventions import data_path
 import os
 import numpy as np
 from typing import Optional
+try:
+    from cobaya.likelihood import Likelihood
+except:
+    Likelihood = object
 
 
 class ACTDR6CMBonly(Likelihood):
@@ -23,6 +25,8 @@ class ACTDR6CMBonly(Likelihood):
     lmax_theory: Optional[int] = None
 
     def initialize(self):
+        from cobaya.conventions import data_path
+
         data_file_path = os.path.join(self.packages_path, data_path)
         self.data_folder = os.path.join(data_file_path, self.data_folder)
 
