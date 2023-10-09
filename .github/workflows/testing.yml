@@ -32,6 +32,7 @@ jobs:
         shell: bash -el {0}
         run: |
           export COBAYA_PACKAGES_PATH=./cobaya_packages
+          cobaya-install act_dr6_cmbonly.PlanckActCut
           mkdir -p $COBAYA_PACKAGES_PATH/data/ACTDR6CMBonly
           cp act_dr6_cmbonly/data/act_dr6_cmb_sacc.fits $COBAYA_PACKAGES_PATH/data/ACTDR6CMBonly/act_dr6_cmb_sacc.fits
 
