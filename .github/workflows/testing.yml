@@ -23,6 +23,9 @@ jobs:
       - name: Install Dependencies
         shell: bash -el {0}
         run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          pip install -r requirements.txt
           pip install -e .
 
       - name: Cache testing Dataset
