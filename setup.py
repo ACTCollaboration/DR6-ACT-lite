@@ -9,7 +9,7 @@ setup(name="ACT DR6 CMBonly",
       url="https://github.com/ACTCollaboration/dr6-cmbonly",
       install_requires=["sacc>=0.12.0", "cobaya>=3.3"],
       packages=["act_dr6_cmbonly"],
-      package_data={"act_dr6_cmbonly": ["*.yaml", "data/*"]},
+      package_data={"act_dr6_cmbonly": ["*.yaml", "data/*", "tests/*"]},
       test_suite="act_dr6_cmbonly.tests",
       classifiers=[
           "Programming Language :: Python :: 3"
