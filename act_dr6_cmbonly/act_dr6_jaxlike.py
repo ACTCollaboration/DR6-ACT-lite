@@ -8,11 +8,11 @@ class ACTDR6jax:
     """
     A differentiable Likelihood implementation for ACT DR6
     foreground-marginalized (cmb-only) data.
-    
+
     To make use of this module, make sure to install the package with
         pip install -e .[jax]
     to include any JAX dependencies.
-    
+
     I do not expect this class to get used a lot, but for the sake of
     "it is easy and doable to write this in 100 lines of code", I wrote this.
 
@@ -88,7 +88,7 @@ class ACTDR6jax:
         """
         Most of the magic happens here - we create some binning and stacking
         functions to ensure that everything can be quickly jit-ed by JAX.
-        
+
         (This is not a super clean way to do this, but it is the most
         efficient way to do this easily.)
         """

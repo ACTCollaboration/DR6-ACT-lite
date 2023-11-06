@@ -41,14 +41,12 @@ def test_jax_loglike():
     emu_tt = CPJ(probe='cmb_tt')
     emu_te = CPJ(probe='cmb_te')
     emu_ee = CPJ(probe='cmb_ee')
-    cl_tt = (T_CMB) ** 2.0 * emu_tt.predict(cosmo_params) * \
-         emu_tt.modes * (emu_tt.modes + 1.0) / (2.0 * np.pi)
-    cl_te = (T_CMB) ** 2.0 * emu_te.predict(cosmo_params) * \
-         emu_te.modes * (emu_te.modes + 1.0) / (2.0 * np.pi)
-    cl_ee = (T_CMB) ** 2.0 * emu_ee.predict(cosmo_params) * \
-         emu_ee.modes * (emu_ee.modes + 1.0) / (2.0 * np.pi)
+    ellfac = emu_tt.modes * (emu_tt.modes + 1.0) / (2.0 * np.pi)
+    cl_tt = (T_CMB) ** 2.0 * emu_tt.predict(cosmo_params) * ellfac
+    cl_te = (T_CMB) ** 2.0 * emu_te.predict(cosmo_params) * ellfac
+    cl_ee = (T_CMB) ** 2.0 * emu_ee.predict(cosmo_params) * ellfac
 
-    cell = np.stack([cell_tt, cell_te, cell_ee], axis=1)
+    cell = np.stack([cl_tt, cl_te, cl_ee], axis=1)
 
     like = act_dr6_cmbonly.ACTDR6jax()
     like.load_data()
@@ -57,6 +55,8 @@ def test_jax_loglike():
 
     assert np.isclose(logp, -1236.189)
 
+
 if __name__ == "__main__":
-    test_import()
+    test_import_jaxlike()
     test_jaxlike()
+    test_jax_loglike()
