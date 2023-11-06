@@ -51,6 +51,12 @@ def test_jax_loglike():
 
     like = act_dr6_cmbonly.ACTDR6jax()
     like.data_folder = "act_dr6_cmbonly/data"
+    like.ell_cuts = {
+        "TT": [600, 2508],
+        "TE": [600, 2508],
+        "EE": [500, 2508]
+    }
+    like.tt_lmax = 2508
     like.load_data()
 
     logp = like.logp(cell)
