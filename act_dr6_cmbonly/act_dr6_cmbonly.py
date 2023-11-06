@@ -131,5 +131,5 @@ class ACTDR6CMBonly(Likelihood):
         return self.logp_const + logp
 
     def logp(self, **param_values):
-        cl = self.theory.get_Cl(ell_factor=True)
+        cl = self.provider.get_Cl(ell_factor=True)
         return self.loglike(cl)

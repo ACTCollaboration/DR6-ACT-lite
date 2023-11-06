@@ -11,4 +11,4 @@ except ImportError:
 try:
     from .act_dr6_jaxlike import ACTDR6jax  # noqa: F401
 except ImportError:
-    pass
+    ACTDR6jax = None  # noqa: F401
