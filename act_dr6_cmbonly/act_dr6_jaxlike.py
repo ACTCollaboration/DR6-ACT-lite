@@ -97,9 +97,9 @@ class ACTDR6jax:
             self.spec_picker = self.spec_picker.at[m["idx"], i].set(1)
 
             j1, j2 = m["window"].values.min()-2, m["window"].values.max()-2
-            if j2 >= self.tt_lmax:
-                j2 = self.tt_lmax-1
-            imax = j2-j1
+            if j2 >= self.tt_lmax-1:
+                j2 = self.tt_lmax-2
+            imax = j2-j1+1
             self.win_func = self.win_func.at[m["idx"], j1:j2+1].set(
                 m["window"].weight[:imax].astype(float).T
             )
