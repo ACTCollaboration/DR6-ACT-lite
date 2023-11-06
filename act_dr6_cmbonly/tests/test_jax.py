@@ -28,6 +28,7 @@ def test_jaxlike():
 def test_jax_load_data():
     import act_dr6_cmbonly
     like = act_dr6_cmbonly.ACTDR6jax()
+    like.data_folder = "act_dr6_cmbonly/data"
     like.load_data()
 
 
@@ -49,6 +50,7 @@ def test_jax_loglike():
     cell = np.stack([cl_tt, cl_te, cl_ee], axis=1)
 
     like = act_dr6_cmbonly.ACTDR6jax()
+    like.data_folder = "act_dr6_cmbonly/data"
     like.load_data()
 
     logp = like.logp(cell)
