@@ -28,7 +28,7 @@ You can now run the tests with
 ```
 pytest -v --pyargs act_dr6_cmbonly
 ```
-If the tests return without any error (i.e. with only warnings), then the code is probably correctly installed. You can then attempt to run chains with
+If the tests return without any error (i.e. with only warnings), then the code is probably correctly installed. You may get some tests which get skipped if you do not install the differentiable likelihood (see below) - you do not need to worry about this. You can then attempt to run chains with
 ```
 cobaya-run yamls/run_act.yaml
 ```
@@ -46,3 +46,18 @@ If you ever get an error that the likelihood cannot locate the data, then you ca
 By default, the likelihood will look for the data in either
 - `<pip directory>/act_dr6_cmbonly/data/` if no cobaya packages path is given, or
 - `<cobaya packages path>/data/ACTDR6CMBonly/` if a cobaya packages path is given.
+
+## The differentiable likelihood
+
+If you are for whatever reason interested, I also created a differentiable likelihood as well. You can install this by installing the package with
+```
+pip install -e .[jax]
+```
+Which will also install the `jax` and `cosmopower-jax` prerequisites. The differentiable likelihood can then be imported with
+```
+import act_dr6_cmbonly
+like = act_dr6_cmbonly.ACTDR6jax()
+```
+I provide an example of how to run a chain with the differentiable likelihood, see the `examples/run_hmc.py` file.
+
+For the most part, I do not expect that a differentiable likelihood adds much to ACT DR6 on its own. However, should people be interested in running joint analyses with other probes that provide differentiable likelihoods, then this simple likelihood should suffice. For the most part, it is simply 100 lines of python that do the same as the cobaya likelihood, but with JAX instead of numpy (as a result, some of the data is stored a bit differently internally to make use of JAX optimizations).
