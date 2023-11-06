@@ -5,6 +5,19 @@ from typing import Sequence
 
 
 class ACTDR6jax:
+    """
+    A differentiable Likelihood implementation for ACT DR6
+    foreground-marginalized (cmb-only) data.
+    
+    To make use of this module, make sure to install the package with
+        pip install -e .[jax]
+    to include any JAX dependencies.
+    
+    I do not expect this class to get used a lot, but for the sake of
+    "it is easy and doable to write this in 100 lines of code", I wrote this.
+
+    Author: Hidde T. Jense
+    """
     data_folder: str = "ACTDR6CMBonly"
     input_filename: str = "act_dr6_cmb_sacc.fits"
     polarizations: Sequence[str] = ["tt", "te", "ee"]
@@ -72,13 +85,23 @@ class ACTDR6jax:
         self.spec_picker = np.zeros((idx_max + 1, len(self.spec_meta)))
         self.win_func = np.zeros((idx_max + 1, self.tt_lmax - 1))
 
+        """
+        Most of the magic happens here - we create some binning and stacking
+        functions to ensure that everything can be quickly jit-ed by JAX.
+        
+        (This is not a super clean way to do this, but it is the most
+        efficient way to do this easily.)
+        """
         for i, m in enumerate(self.spec_meta):
             self.data_vec = self.data_vec.at[m["idx"]].set(m["spec"])
             self.spec_picker = self.spec_picker.at[m["idx"], i].set(1)
 
             j1, j2 = m["window"].values.min()-2, m["window"].values.max()-2
+            if j2 >= self.tt_lmax:
+                j2 = self.tt_lmax-1
+            imax = j2-j1
             self.win_func = self.win_func.at[m["idx"], j1:j2+1].set(
-                m["window"].weight.astype(float).T
+                m["window"].weight[:imax].astype(float).T
             )
 
         self.covmat = np.array(saccfile.covariance.covmat)
@@ -93,6 +116,12 @@ class ACTDR6jax:
         self.logp_const -= 0.5 * np.linalg.slogdet(self.covmat)[1]
 
     def logp(self, dell: np.ndarray) -> float:
+        """
+        Compute the log-likelihood of some cosmology.
+        It expects an Lx3 array, where L is the number of ell-modes
+        (where dell[:,0] = TT[2..lmax], dell[:,1] = TE[2..lmax], and
+        dell[:,2] = EE[2..lmax]).
+        """
         ps_vec = np.dot(self.win_func, dell[:self.tt_lmax-1])
         ps_vec = np.sum(ps_vec * self.spec_picker, axis=1)
 
