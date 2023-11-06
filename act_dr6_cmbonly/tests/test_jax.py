@@ -66,5 +66,6 @@ def test_jax_loglike():
 
 if __name__ == "__main__":
     test_import_jaxlike()
+    test_jax_load_data()
     test_jaxlike()
     test_jax_loglike()
