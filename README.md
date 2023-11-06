@@ -49,7 +49,7 @@ By default, the likelihood will look for the data in either
 
 ## The differentiable likelihood
 
-If you are for whatever reason interested, I also created a differentiable likelihood as well. You can install this by installing the package with
+If you are for whatever reason interested, I created a differentiable likelihood as well. You can install this by installing the package with
 ```
 pip install -e .[jax]
 ```
