@@ -60,4 +60,4 @@ like = act_dr6_cmbonly.ACTDR6jax()
 ```
 I provide an example of how to run a chain with the differentiable likelihood, see the `examples/run_hmc.py` file.
 
-For the most part, I do not expect that a differentiable likelihood adds much to ACT DR6 on its own. However, should people be interested in running joint analyses with other probes that provide differentiable likelihoods, then this simple likelihood should suffice. For the most part, it is simply 100 lines of python that do the same as the cobaya likelihood, but with JAX instead of numpy (as a result, some of the data is stored a bit differently internally to make use of JAX optimizations).
+For the most part, I do not expect that a differentiable likelihood adds much to ACT DR6 on its own. However, should people be interested in running joint analyses with other probes that provide differentiable likelihoods, then this simple likelihood should suffice. For the most part, it is simply 100 lines of python that does the same as the cobaya likelihood, but with JAX instead of numpy (as a result, some of the data is stored a bit differently internally to make use of JAX optimizations).
