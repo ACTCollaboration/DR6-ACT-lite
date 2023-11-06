@@ -39,4 +39,4 @@ jobs:
       - name: Run Tests
         shell: bash -el {0}
         run: |
-          pytest -v act_dr6_cmbonly/tests/test_act.py
+          pytest -v
