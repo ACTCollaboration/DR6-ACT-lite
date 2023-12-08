@@ -69,8 +69,40 @@ def test_Planck():
         "ACT+Planck log-posterior does not match."
 
 
+def test_PlanckNPIPE():
+    info["likelihood"] = {
+        "act_dr6_cmbonly.ACTDR6CMBonly": {
+            "stop_at_error": True,
+            "input_file": "act_dr6_cmb_sacc.fits"
+        },
+        "act_dr6_cmbonly.PlanckNPIPEActCut": {
+            "stop_at_error": True,
+            "params": {
+              "use_fg_residual_model": 0,
+              "cal0": 1,
+              "cal2": 1,
+              "amp_100": 0,
+              "amp_143": 10,
+              "amp_217" : 20,
+              "amp_143x217": 10,
+              "n_100": 1,
+              "n_143": 1,
+              "n_217": 1,
+              "n_143x217": 1,
+              "calTE": 1,
+              "calEE": 1
+            }
+        }
+    }
+    model = get_model(info)
+    loglikes = sum(model.loglikes()[0])
+    assert np.isclose(loglikes, -6833.93), \
+        "ACT+PlanckNPIPE log-posterior does not match."
+
+
 if __name__ == "__main__":
     test_import()
     test_model()
     test_TTTEEE()
     test_Planck()
+    test_PlanckNPIPE()
