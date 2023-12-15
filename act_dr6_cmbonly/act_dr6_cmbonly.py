@@ -3,6 +3,10 @@ import numpy as np
 from typing import Optional
 from cobaya.likelihood import Likelihood
 
+# TT only: chi2 = 4090.91
+# TE only: chi2 = 2355.25
+# EE only: chi2 = 2670.7
+# TTTEEE : chi2 = 
 
 class ACTDR6CMBonly(Likelihood):
     """
@@ -50,7 +54,7 @@ class ACTDR6CMBonly(Likelihood):
         self.cull = []
         idx_max = 0
 
-        for pol in ["TT", "TE", "EE"]:
+        for pol in [ "TT", "TE", "EE" ]:
             p1, p2 = pol.lower()
             t1, t2 = pol_dt[p1], pol_dt[p2]
             dt = f"cl_{t1}{t2}"
@@ -58,10 +62,16 @@ class ACTDR6CMBonly(Likelihood):
             tracers = input_file.get_tracer_combinations(dt)
 
             for tr1, tr2 in tracers:
-                lmin, lmax = self.ell_cuts.get(pol, (-np.inf, np.inf))
+                lmin, lmax = self.ell_cuts.get(pol, (np.inf, -np.inf))
                 ls, mu, ind = input_file.get_ell_cl(dt, tr1, tr2,
                                                     return_ind=True)
                 mask = np.logical_and(ls >= lmin, ls <= lmax)
+
+                if np.all(~mask):
+                    self.log.debug(f"Completely cutting {pol} from data.")
+                    self.cull.append(ind[~mask])
+                    idx_max = max(idx_max, max(ind))
+                    continue
 
                 if not np.all(mask):
                     self.log.debug(
@@ -92,6 +102,7 @@ class ACTDR6CMBonly(Likelihood):
 
         self.covmat = input_file.covariance.covmat
         for culls in self.cull:
+            self.log.debug(f"Culling {culls}.")
             self.covmat[culls, :] = 0.0
             self.covmat[:, culls] = 0.0
             self.covmat[culls, culls] = 1e10
