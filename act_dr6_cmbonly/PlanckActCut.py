@@ -14,16 +14,28 @@ class PlanckActCut(PlanckPlikLite):
         super().init_params(ini)
 
         ix = 0
-        for i, (xy, lmax) in enumerate(zip(ini.list('use_cl'),
-                                           ini.int_list('lmax_cuts'))):
+        uses = {}
+        for i, (xy, lmin, lmax) in enumerate(zip(ini.list('use_cl'),
+                                                 ini.int_list('lmin_cuts'),
+                                                 ini.int_list('lmax_cuts'))):
             idx = self.used_bins[i]
 
-            to_cut = idx[self.blmin[idx] >= lmax] + ix
+            mask = np.logical_or(self.blmin[idx] < lmin, self.blmax[idx] > lmax)
+            to_cut = idx[mask] + ix
 
             self.cov[to_cut, :] = 0.0
             self.cov[:, to_cut] = 0.0
             self.cov[to_cut, to_cut] = 1e10
 
+            self.log.info(f"Removing bins {to_cut} in {xy.upper()}.")
+
             ix += len(idx)
+            if len(idx) > len(to_cut):
+                uses[xy] = len(idx) - len(to_cut)
 
         self.invcov = np.linalg.inv(self.cov)
+
+        self.log.info(f"Using a total of {ix} bins.")
+        self.log.info("Breakdown:")
+        for i, k in uses.items():
+            self.log.info(f"\t{i.upper()}: {k}")

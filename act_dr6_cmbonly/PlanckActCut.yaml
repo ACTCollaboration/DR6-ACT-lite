@@ -9,7 +9,8 @@ dataset_file: plik_lite_v22.dataset
 # Overriding of .dataset parameters
 dataset_params:
   use_cl: tt te ee
-  lmax_cuts: 800 3000 3000
+  lmin_cuts: 0 0 0
+  lmax_cuts: 1000 500 500
 # Aliases for automatic covariance matrix
 aliases: [plikHM_TTTEEE]
 # Speed in evaluations/second
