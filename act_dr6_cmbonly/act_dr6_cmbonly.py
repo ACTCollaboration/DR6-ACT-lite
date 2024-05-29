@@ -117,8 +117,10 @@ class ACTDR6CMBonly(Likelihood):
             ls = m["window"].values
             pol = m["pol"]
             dat = cl[pol][ls]
-            if pol[0] == "e": dat /= poleff
-            if pol[1] == "e": dat /= poleff
+            if pol[0] == "e":
+                dat /= poleff
+            if pol[1] == "e":
+                dat /= poleff
 
             ps_vec[idx] = win @ dat
 

@@ -44,7 +44,7 @@ def test_TTTEEE():
     info["likelihood"] = {
         "act_dr6_cmbonly.ACTDR6CMBonly": {
             "stop_at_error": True,
-            "input_file": "act_dr6_cmb_sacc.fits"
+            "input_file": "act_dr6_cmb_sacc.fits",
             "params": {"poleff": 1.0}
         }
     }
@@ -58,7 +58,7 @@ def test_Planck():
     info["likelihood"] = {
         "act_dr6_cmbonly.ACTDR6CMBonly": {
             "stop_at_error": True,
-            "input_file": "act_dr6_cmb_sacc.fits"
+            "input_file": "act_dr6_cmb_sacc.fits",
             "params": {"poleff": 1.0}
         },
         "act_dr6_cmbonly.PlanckActCut": {
