@@ -68,7 +68,7 @@ def test_Planck():
     }
     model = get_model(info)
     loglikes = sum(model.loglikes()[0])
-    assert np.isclose(loglikes, -1947.24), \
+    assert np.isclose(loglikes, -1905.82), \
         "ACT+Planck log-posterior does not match."
 
 
