@@ -104,11 +104,11 @@ class ACTDR6CMBonly(Likelihood):
         self.log.debug(f"len(data vec) = {len(self.data_vec)}")
 
     def get_requirements(self):
-        return dict(Cl={
+        return dict(poleff=None, Cl={
             k: self.lmax_theory+1 for k in ["TT", "TE", "EE"]
         })
 
-    def chi_square(self, cl):
+    def chi_square(self, cl, poleff):
         ps_vec = np.zeros_like(self.data_vec)
 
         for m in self.spec_meta:
@@ -117,6 +117,10 @@ class ACTDR6CMBonly(Likelihood):
             ls = m["window"].values
             pol = m["pol"]
             dat = cl[pol][ls]
+            if pol[0] == "e":
+                dat /= poleff
+            if pol[1] == "e":
+                dat /= poleff
 
             ps_vec[idx] = win @ dat
 
@@ -126,10 +130,10 @@ class ACTDR6CMBonly(Likelihood):
         self.log.debug(f"Chisqr = {chisquare:.3f}")
         return chisquare
 
-    def loglike(self, cl):
-        logp = -0.5 * self.chi_square(cl)
+    def loglike(self, cl, poleff):
+        logp = -0.5 * self.chi_square(cl, poleff)
         return self.logp_const + logp
 
     def logp(self, **param_values):
         cl = self.provider.get_Cl(ell_factor=True)
-        return self.loglike(cl)
+        return self.loglike(cl, param_values["poleff"])

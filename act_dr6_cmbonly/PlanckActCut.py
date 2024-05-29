@@ -20,7 +20,8 @@ class PlanckActCut(PlanckPlikLite):
                                                  ini.int_list('lmax_cuts'))):
             idx = self.used_bins[i]
 
-            mask = np.logical_or(self.blmin[idx] < lmin, self.blmax[idx] > lmax)
+            mask = np.logical_or(self.blmin[idx] < lmin,
+                                 self.blmax[idx] > lmax)
             to_cut = idx[mask] + ix
 
             self.cov[to_cut, :] = 0.0
