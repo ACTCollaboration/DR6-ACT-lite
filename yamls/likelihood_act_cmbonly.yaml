@@ -1,3 +1,13 @@
 act_dr6_cmbonly.ACTDR6CMBonly:
   input_file: act_dr6_cmb_sacc.fits
   stop_at_error: true
+  params:
+    poleff:
+      prior:
+        min: 0.9
+        max: 1.1
+      ref:
+        dist: norm
+        loc: 1.0
+        scale: 0.01
+      latex: p_{\rm ACT}
