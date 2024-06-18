@@ -34,7 +34,10 @@ def test_model():
     info["likelihood"] = {
         "act_dr6_cmbonly.ACTDR6CMBonly": {
             "input_file": "act_dr6_cmb_sacc.fits",
-            "params": {"poleff": 1.0}
+            "params": {
+                "A_act": 1.0,
+                "P_act": 1.0
+            }
         }
     }
     model = get_model(info)  # noqa F841
@@ -45,7 +48,10 @@ def test_TTTEEE():
         "act_dr6_cmbonly.ACTDR6CMBonly": {
             "stop_at_error": True,
             "input_file": "act_dr6_cmb_sacc.fits",
-            "params": {"poleff": 1.0}
+            "params": {
+                "A_act": 1.0,
+                "P_act": 1.0
+            }
         }
     }
     model = get_model(info)
@@ -59,7 +65,10 @@ def test_Planck():
         "act_dr6_cmbonly.ACTDR6CMBonly": {
             "stop_at_error": True,
             "input_file": "act_dr6_cmb_sacc.fits",
-            "params": {"poleff": 1.0}
+            "params": {
+                "A_act": 1.0,
+                "P_act": 1.0
+            }
         },
         "act_dr6_cmbonly.PlanckActCut": {
             "stop_at_error": True,
