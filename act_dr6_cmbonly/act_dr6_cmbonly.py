@@ -17,7 +17,7 @@ class ACTDR6CMBonly(Likelihood):
     ell_cuts: dict = {
         "TT": [600, 6500],
         "TE": [600, 6500],
-        "EE": [500, 6500]
+        "EE": [600, 6500]
     }
     lmax_theory: Optional[int] = None
 

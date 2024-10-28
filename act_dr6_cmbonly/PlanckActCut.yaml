@@ -10,7 +10,7 @@ dataset_file: plik_lite_v22.dataset
 dataset_params:
   use_cl: tt te ee
   lmin_cuts: 0 0 0
-  lmax_cuts: 1000 500 500
+  lmax_cuts: 1000 600 600
 # Aliases for automatic covariance matrix
 aliases: [plikHM_TTTEEE]
 # Speed in evaluations/second

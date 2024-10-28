@@ -28,7 +28,7 @@ class PlanckActCut(PlanckPlikLite):
             self.cov[:, to_cut] = 0.0
             self.cov[to_cut, to_cut] = 1e10
 
-            self.log.info(f"Removing bins {to_cut} in {xy.upper()}.")
+            self.log.debug(f"Removing bins {to_cut} in {xy.upper()}.")
 
             ix += len(idx)
             if len(idx) > len(to_cut):
@@ -36,7 +36,7 @@ class PlanckActCut(PlanckPlikLite):
 
         self.invcov = np.linalg.inv(self.cov)
 
-        self.log.info(f"Using a total of {ix} bins.")
-        self.log.info("Breakdown:")
+        self.log.debug(f"Using a total of {ix} bins.")
+        self.log.debug("Breakdown:")
         for i, k in uses.items():
-            self.log.info(f"\t{i.upper()}: {k}")
+            self.log.debug(f"\t{i.upper()}: {k}")
