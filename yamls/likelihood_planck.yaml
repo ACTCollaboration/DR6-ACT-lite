@@ -1,3 +1,5 @@
 planck_2018_lowl.TT: null
 planck_2018_lowl.EE_sroll2: null
-PlanckCut.PlanckActCut: null
+PlanckCut.PlanckActCut:
+  params:
+    A_planck: "lambda A_act: A_act"
