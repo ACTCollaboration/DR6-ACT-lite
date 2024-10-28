@@ -58,7 +58,7 @@ class ACTDR6CMBonly(Likelihood):
             tracers = input_file.get_tracer_combinations(dt)
 
             for tr1, tr2 in tracers:
-                lmin, lmax = self.ell_cuts.get(pol, (-np.inf, np.inf))
+                lmin, lmax = self.ell_cuts.get(pol, (np.inf, -np.inf))
                 ls, mu, ind = input_file.get_ell_cl(dt, tr1, tr2,
                                                     return_ind=True)
                 mask = np.logical_and(ls >= lmin, ls <= lmax)
@@ -69,22 +69,23 @@ class ACTDR6CMBonly(Likelihood):
                     )
                     self.cull.append(ind[~mask])
 
-                window = input_file.get_bandpower_windows(ind[mask])
+                if np.any(mask):
+                    window = input_file.get_bandpower_windows(ind[mask])
 
-                self.spec_meta.append({
-                    "data_type": dt,
-                    "tracer1": tr1,
-                    "tracer2": tr2,
-                    "pol": pol.lower(),
-                    "ell": ls[mask],
-                    "spec": mu[mask],
-                    "idx": ind[mask],
-                    "window": window
-                })
+                    self.spec_meta.append({
+                        "data_type": dt,
+                        "tracer1": tr1,
+                        "tracer2": tr2,
+                        "pol": pol.lower(),
+                        "ell": ls[mask],
+                        "spec": mu[mask],
+                        "idx": ind[mask],
+                        "window": window
+                    })
 
-                idx_max = max(idx_max, max(ind))
-                self.lmax_theory = max(self.lmax_theory,
-                                       int(window.values.max())+1)
+                    idx_max = max(idx_max, max(ind))
+                    self.lmax_theory = max(self.lmax_theory,
+                                           int(window.values.max())+1)
 
         self.data_vec = np.zeros((idx_max+1,))
         for m in self.spec_meta:
@@ -97,18 +98,15 @@ class ACTDR6CMBonly(Likelihood):
             self.covmat[culls, culls] = 1e10
 
         self.inv_cov = np.linalg.inv(self.covmat)
-        self.logp_const = np.log(2.0 * np.pi) * -0.5 * len(self.data_vec)
-        self.logp_const -= 0.5 * np.linalg.slogdet(self.covmat)[1]
 
-        self.log.debug(f"log(P) = {self.logp_const}")
         self.log.debug(f"len(data vec) = {len(self.data_vec)}")
 
     def get_requirements(self):
-        return dict(poleff=None, Cl={
+        return dict(A_act=None, P_act=None, Cl={
             k: self.lmax_theory+1 for k in ["TT", "TE", "EE"]
         })
 
-    def chi_square(self, cl, poleff):
+    def chi_square(self, cl, A_act, P_act):
         ps_vec = np.zeros_like(self.data_vec)
 
         for m in self.spec_meta:
@@ -116,11 +114,11 @@ class ACTDR6CMBonly(Likelihood):
             win = m["window"].weight.T
             ls = m["window"].values
             pol = m["pol"]
-            dat = cl[pol][ls]
+            dat = cl[pol][ls] / (A_act * A_act)
             if pol[0] == "e":
-                dat /= poleff
+                dat /= P_act
             if pol[1] == "e":
-                dat /= poleff
+                dat /= P_act
 
             ps_vec[idx] = win @ dat
 
@@ -130,10 +128,9 @@ class ACTDR6CMBonly(Likelihood):
         self.log.debug(f"Chisqr = {chisquare:.3f}")
         return chisquare
 
-    def loglike(self, cl, poleff):
-        logp = -0.5 * self.chi_square(cl, poleff)
-        return self.logp_const + logp
+    def loglike(self, cl, A_act, P_act):
+        return -0.5 * self.chi_square(cl, A_act, P_act)
 
     def logp(self, **param_values):
         cl = self.provider.get_Cl(ell_factor=True)
-        return self.loglike(cl, param_values["poleff"])
+        return self.loglike(cl, param_values["A_act"], param_values["P_act"])
