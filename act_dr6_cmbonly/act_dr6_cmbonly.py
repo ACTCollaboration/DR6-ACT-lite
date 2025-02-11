@@ -58,7 +58,7 @@ class ACTDR6CMBonly(Likelihood):
             tracers = input_file.get_tracer_combinations(dt)
 
             for tr1, tr2 in tracers:
-                lmin, lmax = self.ell_cuts.get(pol, (-np.inf, np.inf))
+                lmin, lmax = self.ell_cuts.get(pol, (np.inf, -np.inf))
                 ls, mu, ind = input_file.get_ell_cl(dt, tr1, tr2,
                                                     return_ind=True)
                 mask = np.logical_and(ls >= lmin, ls <= lmax)
@@ -69,22 +69,23 @@ class ACTDR6CMBonly(Likelihood):
                     )
                     self.cull.append(ind[~mask])
 
-                window = input_file.get_bandpower_windows(ind[mask])
+                if np.any(mask):
+                    window = input_file.get_bandpower_windows(ind[mask])
 
-                self.spec_meta.append({
-                    "data_type": dt,
-                    "tracer1": tr1,
-                    "tracer2": tr2,
-                    "pol": pol.lower(),
-                    "ell": ls[mask],
-                    "spec": mu[mask],
-                    "idx": ind[mask],
-                    "window": window
-                })
+                    self.spec_meta.append({
+                        "data_type": dt,
+                        "tracer1": tr1,
+                        "tracer2": tr2,
+                        "pol": pol.lower(),
+                        "ell": ls[mask],
+                        "spec": mu[mask],
+                        "idx": ind[mask],
+                        "window": window
+                    })
 
-                idx_max = max(idx_max, max(ind))
-                self.lmax_theory = max(self.lmax_theory,
-                                       int(window.values.max())+1)
+                    idx_max = max(idx_max, max(ind))
+                    self.lmax_theory = max(self.lmax_theory,
+                                           int(window.values.max())+1)
 
         self.data_vec = np.zeros((idx_max+1,))
         for m in self.spec_meta:

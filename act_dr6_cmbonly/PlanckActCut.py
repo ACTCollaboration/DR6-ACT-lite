@@ -1,6 +1,7 @@
 import numpy as np
 from cobaya.likelihoods.base_classes import PlanckPlikLite
 
+cl_names = ["tt", "te", "ee"]
 
 class PlanckActCut(PlanckPlikLite):
     """
@@ -15,10 +16,10 @@ class PlanckActCut(PlanckPlikLite):
 
         ix = 0
         uses = {}
-        for i, (xy, lmin, lmax) in enumerate(zip(ini.list('use_cl'),
-                                                 ini.int_list('lmin_cuts'),
-                                                 ini.int_list('lmax_cuts'))):
-            idx = self.used_bins[i]
+        for xy, lmin, lmax in zip(ini.list('use_cl'),
+                                       ini.int_list('lmin_cuts'),
+                                       ini.int_list('lmax_cuts')):
+            idx = self.used_bins[cl_names.index(xy)]
 
             mask = np.logical_or(self.blmin[idx] < lmin,
                                  self.blmax[idx] > lmax)
@@ -27,8 +28,10 @@ class PlanckActCut(PlanckPlikLite):
             self.cov[to_cut, :] = 0.0
             self.cov[:, to_cut] = 0.0
             self.cov[to_cut, to_cut] = 1e10
+            
+            self.log.debug(f"Cutting bins {to_cut}")
 
-            self.log.info(f"Removing bins {to_cut} in {xy.upper()}.")
+            self.log.debug(f"Removing bins {to_cut} in {xy.upper()}.")
 
             ix += len(idx)
             if len(idx) > len(to_cut):
@@ -36,7 +39,7 @@ class PlanckActCut(PlanckPlikLite):
 
         self.invcov = np.linalg.inv(self.cov)
 
-        self.log.info(f"Using a total of {ix} bins.")
-        self.log.info("Breakdown:")
+        self.log.debug(f"Using a total of {ix} bins.")
+        self.log.debug("Breakdown:")
         for i, k in uses.items():
-            self.log.info(f"\t{i.upper()}: {k}")
+            self.log.debug(f"\t{i.upper()}: {k}")
