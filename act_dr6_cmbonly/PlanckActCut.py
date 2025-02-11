@@ -3,6 +3,7 @@ from cobaya.likelihoods.base_classes import PlanckPlikLite
 
 cl_names = ["tt", "te", "ee"]
 
+
 class PlanckActCut(PlanckPlikLite):
     """
     A simple Planck likelihood that cuts the data above a certain ell value.
@@ -17,8 +18,8 @@ class PlanckActCut(PlanckPlikLite):
         ix = 0
         uses = {}
         for xy, lmin, lmax in zip(ini.list('use_cl'),
-                                       ini.int_list('lmin_cuts'),
-                                       ini.int_list('lmax_cuts')):
+                                  ini.int_list('lmin_cuts'),
+                                  ini.int_list('lmax_cuts')):
             idx = self.used_bins[cl_names.index(xy)]
 
             mask = np.logical_or(self.blmin[idx] < lmin,
@@ -28,7 +29,7 @@ class PlanckActCut(PlanckPlikLite):
             self.cov[to_cut, :] = 0.0
             self.cov[:, to_cut] = 0.0
             self.cov[to_cut, to_cut] = 1e10
-            
+
             self.log.debug(f"Cutting bins {to_cut}")
 
             self.log.debug(f"Removing bins {to_cut} in {xy.upper()}.")
