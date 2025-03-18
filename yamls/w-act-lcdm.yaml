@@ -1,0 +1,15 @@
+output: chains/w-actlite-camb-lcdm
+debug: false
+force: false
+
+sampler:
+  mcmc:
+    Rminus1_stop: 0.01
+    Rminus1_cl_stop: 0.05
+
+theory: !defaults [theories/camb]
+params: !defaults [params/cosmology]
+likelihood: !defaults [likelihoods/act_lite, likelihoods/wmap]
+
+prior:
+  cal_dip_prior: 'lambda A_act: stats.norm.logpdf(A_act, loc = 1.0, scale = 0.003)'
