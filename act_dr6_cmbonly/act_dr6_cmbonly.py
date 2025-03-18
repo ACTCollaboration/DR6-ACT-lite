@@ -1,19 +1,25 @@
 import os
 import numpy as np
 from typing import Optional
-from cobaya.likelihood import Likelihood
+from cobaya.likelihoods.base_classes import InstallableLikelihood
 
 
-class ACTDR6CMBonly(Likelihood):
+class ACTDR6CMBonly(InstallableLikelihood):
     """
     Likelihood for ACT DR6 foreground-marginalized (cmb-only).
 
     Author: Hidde T. Jense
     """
-    file_base_name: str = "act_dr6_cmb"
-
-    input_file: str
+    url: str = ""  # TODO: Update URL after webinar!
+    file_base_name: str = "dr6_data_cmbonly"
+    input_file: str = f"{file_base_name}.fits"
     data_folder: str = "ACTDR6CMBonly"
+
+    install_options: dict = {
+        "download_url": f"{url}/{input_file}",
+        "data_path": data_folder
+    }
+
     ell_cuts: dict = {
         "TT": [600, 6500],
         "TE": [600, 6500],

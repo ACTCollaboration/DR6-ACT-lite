@@ -32,7 +32,7 @@ def test_import():
 
 def test_model():
     info["likelihood"] = {
-        "act_dr6_cmbonly.ACTDR6CMBonly": {
+        "act_dr6_cmbonly": {
             "input_file": "act_dr6_cmb_sacc.fits",
             "params": {
                 "A_act": 1.0,
@@ -45,7 +45,7 @@ def test_model():
 
 def test_TTTEEE():
     info["likelihood"] = {
-        "act_dr6_cmbonly.ACTDR6CMBonly": {
+        "act_dr6_cmbonly": {
             "stop_at_error": True,
             "input_file": "act_dr6_cmb_sacc.fits",
             "params": {
@@ -62,7 +62,7 @@ def test_TTTEEE():
 
 def test_Planck():
     info["likelihood"] = {
-        "act_dr6_cmbonly.ACTDR6CMBonly": {
+        "act_dr6_cmbonly": {
             "stop_at_error": True,
             "input_file": "act_dr6_cmb_sacc.fits",
             "params": {
