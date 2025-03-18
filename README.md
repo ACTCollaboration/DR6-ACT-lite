@@ -39,7 +39,7 @@ pytest -v --pyargs act_dr6_cmbonly
 ```
 If the tests return without any error (i.e. with only warnings), then the code is probably correctly installed. You may get some tests which get skipped if you do not install the differentiable likelihood (see below) - you do not need to worry about this. You can then attempt to run chains with
 ```
-cobaya-run yamls/run_act.yaml
+cobaya-run yamls/act-lcdm.yaml
 ```
 (and other data combinations if you want, see the files `yamls/`).
 
@@ -57,3 +57,18 @@ By default, the likelihood will look for the data in either
 - `<pip directory>/act_dr6_cmbonly/data/` if no cobaya packages path is given, or
 - `<cobaya packages path>/data/ACTDR6CMBonly/` if a cobaya packages path is given.
 
+
+## Recovering the DR6 Results
+
+We provide a set of example files in the `yamls/` folder. In addition, we have a separate [repository](https://github.com/ACTCollaboration/ACT-DR6-parameters) where we keep our most up-to-date parameter and settings files.
+
+The example files include a series of single-parameter extension models that can be run with ACT-lite, in combination with Planck (P-ACT), WMAP (W-ACT), and/or lensing and BAO measurements (P-ACT-LB). For example, to recover the P-ACT-LB constraints on LCDM, you can run
+```
+cobaya-run yamls/p-act-lb-lcdm.yaml
+```
+
+There are a variety of single-parameter extensions provided in the `yamls/parameters` subfolder. To include for example Neff into your run, you can make a file where you simply change the parameters to include the `neff.yaml` file. You can do this by changing the `params` block to:
+```
+params: !defaults [params/cosmology, params/neff]
+```
+(Make sure to rename your output target so you don't overwrite your LCDM chain!)
