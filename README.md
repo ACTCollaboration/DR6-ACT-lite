@@ -62,9 +62,9 @@ By default, the likelihood will look for the data in either
 
 We provide a set of example files in the `yamls/` folder. In addition, we have a separate [repository](https://github.com/ACTCollaboration/ACT-DR6-parameters) where we keep our most up-to-date parameter and settings files.
 
-The example files include a series of single-parameter extension models that can be run with ACT-lite, in combination with Planck (P-ACT), WMAP (W-ACT), and/or lensing and BAO measurements (P-ACT-LB). For example, to recover the P-ACT-LB constraints on LCDM, you can run
+The example files include a series of single-parameter extension models that can be run with ACT-lite. For example, to recover the ACT constraints on LCDM, you can run
 ```
-cobaya-run yamls/p-act-lb-lcdm.yaml
+cobaya-run yamls/act-lcdm.yaml
 ```
 
 There are a variety of single-parameter extensions provided in the `yamls/parameters` subfolder. To include for example Neff into your run, you can make a file where you simply change the parameters to include the `neff.yaml` file. You can do this by changing the `params` block to:
