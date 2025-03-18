@@ -1,0 +1,11 @@
+# Non-zero running of the primordial spectral index.
+nrun:
+  prior:
+    min: -0.2
+    max: 0.2
+  ref:
+    dist: norm
+    loc: 0.0
+    scale: 0.005
+  proposal: 0.001
+  latex: "{\\rm d} n_s / {\\rm d} \\ln k"

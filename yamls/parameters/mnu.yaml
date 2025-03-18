@@ -1,0 +1,11 @@
+# Non-zero neutrino mass
+mnu:
+  prior:
+    min: 0.0
+    max: 5.0
+  ref:
+    dist: halfnorm
+    loc: 0.0
+    scale: 0.2
+  proposal: 0.15
+  latex: \Sigma m_\nu

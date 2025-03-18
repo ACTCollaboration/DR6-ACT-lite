@@ -1,0 +1,11 @@
+# Spatial curvature
+omk:
+  prior:
+    min: -0.1
+    max: 0.1
+  ref:
+    dist: norm
+    loc: 0.0
+    scale: 1e-5
+  proposal: 1e-2
+  latex: \Omega_k

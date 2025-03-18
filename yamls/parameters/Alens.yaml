@@ -1,0 +1,11 @@
+# Lensing smoothing parameter.
+Alens:
+  prior:
+    min: 0.0
+    max: 2.0
+  ref:
+    dist: norm
+    loc: 1.0
+    scale: 0.1
+  proposal: 0.05
+  latex: A_L
