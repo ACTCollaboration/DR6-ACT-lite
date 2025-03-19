@@ -3,7 +3,7 @@ _Cobaya likelihood for the DR6 foreground-marginalized data._
 
 Author: Hidde T. Jense
 
-**See the ACT DR6 power spectra and likelihoods paper (Louis, La Posta, Atkins, Jense et al., 2025) for a full description.**
+**See the ACT DR6 [power spectra and likelihoods paper](https://arxiv.org/abs/2503.14452) for a full description.**
 
 
 ## Contents
