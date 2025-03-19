@@ -4,7 +4,6 @@ and working properly.
 """
 import pytest  # noqa F401
 import numpy as np
-from cobaya.install import install
 from cobaya.model import get_model
 
 info = {
@@ -32,6 +31,7 @@ def test_import():
 
 
 def test_install():
+    from cobaya.install import install
     info["likelihood"] = {
         "act_dr6_cmbonly": {
             "input_file": "dr6_data_cmbonly.fits",
@@ -54,7 +54,6 @@ def test_model():
             }
         }
     }
-    install(info)
     model = get_model(info)  # noqa F841
 
 
@@ -69,7 +68,6 @@ def test_TTTEEE():
             }
         }
     }
-    install(info)
     model = get_model(info)
     loglikes = sum(model.loglikes()[0])
     assert np.isclose(loglikes, -395.48), \
@@ -91,7 +89,6 @@ def test_Planck():
             "params": {"A_planck": 1.0}
         }
     }
-    install(info)
     model = get_model(info)
     loglikes = sum(model.loglikes()[0])
     assert np.isclose(loglikes, -962.27), \
