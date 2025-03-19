@@ -71,7 +71,7 @@ def test_TTTEEE():
     model = get_model(info)
     loglikes = sum(model.loglikes()[0])
     assert np.isclose(loglikes, -395.48), \
-        f"TT/TE/EE log-posterior does not match."
+        "TT/TE/EE log-posterior does not match."
 
 
 def test_Planck():
@@ -92,7 +92,7 @@ def test_Planck():
     model = get_model(info)
     loglikes = sum(model.loglikes()[0])
     assert np.isclose(loglikes, -962.27), \
-        f"ACT+Planck log-posterior does not match."
+        "ACT+Planck log-posterior does not match."
 
 
 if __name__ == "__main__":

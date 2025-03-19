@@ -41,7 +41,8 @@ class ACTDR6CMBonly(InstallableLikelihood):
                 self.data_folder)
 
         import sacc
-        input_filename = os.path.join(self.data_folder, self.version, self.input_file)
+        input_filename = os.path.join(self.data_folder, self.version,
+                                      self.input_file)
         self.log.debug(f"Searching for data in {input_filename}.")
 
         input_file = sacc.Sacc.load_fits(input_filename)
