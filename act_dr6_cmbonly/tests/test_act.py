@@ -33,7 +33,7 @@ def test_import():
 def test_model():
     info["likelihood"] = {
         "act_dr6_cmbonly": {
-            "input_file": "act_dr6_cmb_sacc.fits",
+            "input_file": "dr6_data_cmbonly.fits",
             "params": {
                 "A_act": 1.0,
                 "P_act": 1.0
@@ -47,7 +47,7 @@ def test_TTTEEE():
     info["likelihood"] = {
         "act_dr6_cmbonly": {
             "stop_at_error": True,
-            "input_file": "act_dr6_cmb_sacc.fits",
+            "input_file": "dr6_data_cmbonly.fits",
             "params": {
                 "A_act": 1.0,
                 "P_act": 1.0
@@ -56,15 +56,15 @@ def test_TTTEEE():
     }
     model = get_model(info)
     loglikes = sum(model.loglikes()[0])
-    assert np.isclose(loglikes, -1203.93), \
-        "TT/TE/EE log-posterior does not match."
+    assert np.isclose(loglikes, -395.48), \
+        f"TT/TE/EE log-posterior does not match."
 
 
 def test_Planck():
     info["likelihood"] = {
         "act_dr6_cmbonly": {
             "stop_at_error": True,
-            "input_file": "act_dr6_cmb_sacc.fits",
+            "input_file": "dr6_data_cmbonly.fits",
             "params": {
                 "A_act": 1.0,
                 "P_act": 1.0
@@ -77,8 +77,8 @@ def test_Planck():
     }
     model = get_model(info)
     loglikes = sum(model.loglikes()[0])
-    assert np.isclose(loglikes, -1770.73), \
-        "ACT+Planck log-posterior does not match."
+    assert np.isclose(loglikes, -962.27), \
+        f"ACT+Planck log-posterior does not match."
 
 
 if __name__ == "__main__":
