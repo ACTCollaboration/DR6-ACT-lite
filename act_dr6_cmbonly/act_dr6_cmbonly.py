@@ -10,13 +10,14 @@ class ACTDR6CMBonly(InstallableLikelihood):
 
     Author: Hidde T. Jense
     """
-    url: str = ""  # TODO: Update URL after webinar!
+    url: str = "https://portal.nersc.gov/project/act/dr6_data/"
     file_base_name: str = "dr6_data_cmbonly"
     input_file: str = f"{file_base_name}.fits"
     data_folder: str = "ACTDR6CMBonly"
+    version: str = "v1.0"
 
     install_options: dict = {
-        "download_url": f"{url}/{input_file}",
+        "download_url": f"{url}/{file_base_name}.tar.gz",
         "data_path": data_folder
     }
 
@@ -40,7 +41,7 @@ class ACTDR6CMBonly(InstallableLikelihood):
                 self.data_folder)
 
         import sacc
-        input_filename = os.path.join(self.data_folder, self.input_file)
+        input_filename = os.path.join(self.data_folder, self.version, self.input_file)
         self.log.debug(f"Searching for data in {input_filename}.")
 
         input_file = sacc.Sacc.load_fits(input_filename)

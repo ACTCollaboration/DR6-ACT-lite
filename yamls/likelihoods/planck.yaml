@@ -1,0 +1,18 @@
+planck_2018_lowl.TT: null
+planck_2018_lowl.EE_sroll2: null
+act_dr6_cmbonly.PlanckActCut:
+  dataset_params:
+    use_cl: tt te ee
+    lmin_cuts: 0 0 0
+    lmax_cuts: 3000 3000 3000
+  params:
+    A_planck:
+      prior:
+        min: 0.5
+        max: 1.5
+      ref:
+        dist: norm
+        loc: 1.0
+        scale: 0.1
+      latex: A_{\rm planck}
+      proposal: 0.003
