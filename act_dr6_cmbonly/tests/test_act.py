@@ -30,6 +30,20 @@ def test_import():
     import act_dr6_cmbonly  # noqa F401
 
 
+def test_install():
+    from cobaya.install import install
+    info["likelihood"] = {
+        "act_dr6_cmbonly": {
+            "input_file": "dr6_data_cmbonly.fits",
+            "params": {
+                "A_act": 1.0,
+                "P_act": 1.0
+            }
+        }
+    }
+    install(info)
+
+
 def test_model():
     info["likelihood"] = {
         "act_dr6_cmbonly": {
@@ -83,6 +97,7 @@ def test_Planck():
 
 if __name__ == "__main__":
     test_import()
+    test_install()
     test_model()
     test_TTTEEE()
     test_Planck()
