@@ -8,7 +8,7 @@ sampler:
     Rminus1_cl_stop: 0.05
 
 theory: !defaults [theories/camb]
-params: !defaults [params/cosmology]
+params: !defaults [parameters/cosmology]
 likelihood: !defaults [likelihoods/act_lite]
 
 prior:
