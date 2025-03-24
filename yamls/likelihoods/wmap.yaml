@@ -1,4 +1,4 @@
 wmaplike.WMAPLike:
   package_install:
-    pip: HTJense/pyWMAP
+    download_url: https://github.com/HTJense/pyWMAP/archive/refs/tags/v0.1.1.zip
   temin: 24
