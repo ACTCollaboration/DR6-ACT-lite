@@ -1,2 +1,4 @@
 wmaplike.WMAPLike:
+  package_install:
+    pip: HTJense/pyWMAP
   temin: 24

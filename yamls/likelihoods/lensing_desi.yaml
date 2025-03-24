@@ -1,4 +1,6 @@
 act_dr6_lenslike.ACTDR6LensLike:
+  package_install:
+    pip: act_dr6_lenslike
   lens_only: false
   stop_at_error: true
   lmax: 4000
