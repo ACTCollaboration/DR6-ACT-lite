@@ -1,6 +1,5 @@
 import os
 import numpy as np
-from typing import Optional
 from cobaya.likelihoods.base_classes import InstallableLikelihood
 
 
