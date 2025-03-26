@@ -26,7 +26,7 @@ class ACTDR6CMBonly(InstallableLikelihood):
         "TE": [600, 6500],
         "EE": [600, 6500]
     }
-    lmax_theory: Optional[int] = None
+    lmax_theory: int = 9000
 
     params: dict = {
         "A_act": {
