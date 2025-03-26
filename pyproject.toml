@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "act_dr6_cmbonly"
+dynamic = ["version"]
+authors = [
+  { name = "Hidde T. Jense", email = "jenseh@cardiff.ac.uk" }
+]
+description = "Cobaya likelihood for the ACT DR6 foreground-marginalized data."
+readme = "README.md"
+license = { file = "LICENSE" }
+dependencies = [
+  "numpy",
+  "scipy",
+  "sacc",
+  "cobaya"
+]
+requires-python = ">=3.9.0"
+classifiers = [
+  "Programming Language :: Python :: 3"
+]
+
+[project.optional-dependencies]
+test = ["pytest", "camb"]
+
+[project.urls]
+Homepage = "https://github.com/ACTCollaboration/DR6-ACT-lite"
+Source = "https://github.com/ACTCollaboration/DR6-ACT-lite"
+Tracker = "https://github.com/ACTCollaboration/DR6-ACT-lite/issues"
+Licensing = "https://github.com/ACTCollaboration/DR6-ACT-lite/main/LICENSE"
+
+[tool.setuptools_scm]
+version_file = "act_dr6_cmbonly/__version__.py"
