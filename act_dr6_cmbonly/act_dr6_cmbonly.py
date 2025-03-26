@@ -28,6 +28,21 @@ class ACTDR6CMBonly(InstallableLikelihood):
     }
     lmax_theory: Optional[int] = None
 
+    params: dict = {
+        "A_act": {
+          "prior": { "min" : 0.5, "max" : 1.5 },
+          "ref": { "dist": "norm", "loc" : 1.0, "scale": 0.1 },
+          "proposal" : 0.003,
+          "latex" : "A_{\\rm ACT}"
+        },
+        "P_act": {
+          "prior": { "min" : 0.9, "max" : 1.1 },
+          "ref": { "dist": "norm", "loc" : 1.0, "scale": 0.1 },
+          "proposal" : 0.03,
+          "latex" : "p_{\\rm ACT}"
+        }
+    }
+
     def initialize(self):
         if self.packages_path is None:
             self.data_folder = os.path.join(
