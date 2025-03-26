@@ -1,6 +1,5 @@
 import os
 import numpy as np
-from typing import Optional
 from cobaya.likelihoods.base_classes import InstallableLikelihood
 
 
@@ -26,7 +25,22 @@ class ACTDR6CMBonly(InstallableLikelihood):
         "TE": [600, 6500],
         "EE": [600, 6500]
     }
-    lmax_theory: Optional[int] = None
+    lmax_theory: int = 9000
+
+    params: dict = {
+        "A_act": {
+          "prior": {"min": 0.5, "max": 1.5},
+          "ref": {"dist": "norm", "loc": 1.0, "scale": 0.1},
+          "proposal": 0.003,
+          "latex": "A_{\\rm ACT}"
+        },
+        "P_act": {
+          "prior": {"min": 0.9, "max": 1.1},
+          "ref": {"dist": "norm", "loc": 1.0, "scale": 0.1},
+          "proposal": 0.03,
+          "latex": "p_{\\rm ACT}"
+        }
+    }
 
     def initialize(self):
         if self.packages_path is None:
