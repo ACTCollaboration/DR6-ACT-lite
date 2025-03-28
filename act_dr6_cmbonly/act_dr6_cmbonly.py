@@ -9,7 +9,7 @@ class ACTDR6CMBonly(InstallableLikelihood):
 
     Author: Hidde T. Jense
     """
-    url: str = "https://portal.nersc.gov/project/act/dr6_data/"
+    url: str = "https://lambda.gsfc.nasa.gov/data/act/pspipe/sacc_files/"
     file_base_name: str = "dr6_data_cmbonly"
     input_file: str = f"{file_base_name}.fits"
     data_folder: str = "ACTDR6CMBonly"
